@@ -473,7 +473,7 @@ set_target_properties (glog PROPERTIES POSITION_INDEPENDENT_CODE ON)
 if (UNWIND_LIBRARY)
   if (NOT ANDROID)
     target_link_libraries (glog PUBLIC ${UNWIND_LIBRARY})
-  endif
+  endif (NOT ANDROID)
 endif (UNWIND_LIBRARY)
 
 if (HAVE_DBGHELP)
