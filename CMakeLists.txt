@@ -44,7 +44,6 @@ include (CTest)
 include (DetermineGflagsNamespace)
 include (GNUInstallDirs)
 
-set (CMAKE_DEBUG_POSTFIX d)
 set (CMAKE_THREAD_PREFER_PTHREAD 1)
 
 if (WITH_GFLAGS)
@@ -497,9 +496,6 @@ if (gflags_FOUND)
   endif (NOT BUILD_SHARED_LIBS)
 endif (gflags_FOUND)
 
-set_target_properties (glog PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties (glog PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
-
 if (WIN32)
   target_compile_definitions (glog PUBLIC GLOG_NO_ABBREVIATED_SEVERITIES)
 endif (WIN32)
@@ -682,3 +678,7 @@ install (FILES
 
 install (EXPORT glog-targets NAMESPACE glog:: DESTINATION
   ${_glog_CMake_INSTALLDIR})
+
+if(MSVC)
+	install(FILES ${CMAKE_BINARY_DIR}/Debug/glog.pdb DESTINATION $<IF:$<BOOL:${BUILD_SHARED_LIBS}>,${CMAKE_INSTALL_BINDIR},${CMAKE_INSTALL_LIBDIR}> CONFIGURATIONS Debug)
+endif(MSVC)
