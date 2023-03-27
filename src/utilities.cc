@@ -329,13 +329,8 @@ static void MyUserNameInitializer() {
     struct passwd* result = NULL;
     char buffer[1024] = {'\0'};
     uid_t uid = geteuid();
-    int pwuid_res = getpwuid_r(uid, &pwd, buffer, sizeof(buffer), &result);
-    if (pwuid_res == 0 && result) {
-      g_my_user_name = pwd.pw_name;
-    } else {
-      snprintf(buffer, sizeof(buffer), "uid%d", uid);
-      g_my_user_name = buffer;
-    }
+    snprintf(buffer, sizeof(buffer), "uid%d", uid);
+    g_my_user_name = buffer;
 #endif
     if (g_my_user_name.empty()) {
       g_my_user_name = "invalid-user";
