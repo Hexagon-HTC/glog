@@ -65,7 +65,7 @@ set (CMAKE_CXX_VISIBILITY_PRESET hidden)
 set (CMAKE_POSITION_INDEPENDENT_CODE ON)
 set (CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 
-set (CMAKE_DEBUG_POSTFIX d)
+# set (CMAKE_DEBUG_POSTFIX d)
 set (CMAKE_THREAD_PREFER_PTHREAD 1)
 
 find_package (GTest NO_MODULE)
@@ -658,8 +658,8 @@ if (ANDROID)
   set (glog_libraries_options_for_static_linking "${glog_libraries_options_for_static_linking} -llog")
 endif (ANDROID)
 
-set_target_properties (glog PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties (glog PROPERTIES SOVERSION 1)
+# set_target_properties (glog PROPERTIES VERSION ${PROJECT_VERSION})
+# set_target_properties (glog PROPERTIES SOVERSION 1)
 
 if (CYGWIN OR WIN32)
   target_compile_definitions (glog PUBLIC GLOG_NO_ABBREVIATED_SEVERITIES)
@@ -993,6 +993,12 @@ install (TARGETS glog
   PUBLIC_HEADER DESTINATION ${_glog_CMake_INCLUDE_DIR}/glog
   LIBRARY DESTINATION ${_glog_CMake_LIBDIR}
   ARCHIVE DESTINATION ${_glog_CMake_LIBDIR})
+
+if(MSVC)
+	install(FILES ${CMAKE_BINARY_DIR}/Debug/glog.pdb
+    DESTINATION $<IF:$<BOOL:${BUILD_SHARED_LIBS}>,${CMAKE_INSTALL_BINDIR},${CMAKE_INSTALL_LIBDIR}>
+    CONFIGURATIONS Debug)
+endif(MSVC)
 
 if (WITH_PKGCONFIG)
   install (
