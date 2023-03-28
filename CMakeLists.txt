@@ -669,6 +669,7 @@ if (WITH_CUSTOM_PREFIX)
   target_compile_definitions (glog PUBLIC GLOG_CUSTOM_PREFIX_SUPPORT)
 endif (WITH_CUSTOM_PREFIX)
 
+target_compile_definitions (glog PUBLIC NOMINMAX)
 set_target_properties (glog PROPERTIES PUBLIC_HEADER "${GLOG_PUBLIC_H}")
 
 target_include_directories (glog BEFORE PUBLIC
