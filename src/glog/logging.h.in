@@ -92,6 +92,9 @@
 #if @ac_cv_cxx11_atomic@ && __cplusplus >= 201103L
 #include <atomic>
 #elif defined(GLOG_OS_WINDOWS)
+# ifndef NOMINMAX
+#  define NOMINMAX
+# endif
 #include <Windows.h>
 #endif
 

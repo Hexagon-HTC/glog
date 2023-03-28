@@ -49,6 +49,10 @@
 #define WIN32_LEAN_AND_MEAN  /* We always want minimal includes */
 #endif
 
+# ifndef NOMINMAX
+#  define NOMINMAX
+# endif
+
 #include <windows.h>
 #include <winsock.h>         /* for gethostname */
 #include <io.h>              /* because we so often use open/close/etc */

@@ -65,7 +65,6 @@ set (CMAKE_CXX_VISIBILITY_PRESET hidden)
 set (CMAKE_POSITION_INDEPENDENT_CODE ON)
 set (CMAKE_VISIBILITY_INLINES_HIDDEN ON)
 
-set (CMAKE_DEBUG_POSTFIX d)
 set (CMAKE_THREAD_PREFER_PTHREAD 1)
 
 find_package (GTest NO_MODULE)
@@ -454,6 +453,9 @@ if (WITH_SYMBOLIZE)
     set (CMAKE_REQUIRED_LIBRARIES DbgHelp)
 
     check_cxx_source_runs ([=[
+    # ifndef NOMINMAX
+    #  define NOMINMAX
+    # endif
     #include <windows.h>
     #include <dbghelp.h>
     #include <cstdlib>
@@ -657,9 +659,6 @@ if (ANDROID)
   target_link_libraries (glog PRIVATE log)
   set (glog_libraries_options_for_static_linking "${glog_libraries_options_for_static_linking} -llog")
 endif (ANDROID)
-
-set_target_properties (glog PROPERTIES VERSION ${PROJECT_VERSION})
-set_target_properties (glog PROPERTIES SOVERSION 1)
 
 if (CYGWIN OR WIN32)
   target_compile_definitions (glog PUBLIC GLOG_NO_ABBREVIATED_SEVERITIES)
@@ -1078,3 +1077,9 @@ install (DIRECTORY ${_glog_BINARY_CMake_DATADIR}
 
 install (EXPORT glog-targets NAMESPACE glog:: DESTINATION
   ${_glog_CMake_INSTALLDIR})
+
+if(MSVC AND BUILD_SHARED_LIBS)
+  install(FILES ${CMAKE_BINARY_DIR}/Debug/glog.pdb
+    DESTINATION $<IF:$<BOOL:${BUILD_SHARED_LIBS}>,${CMAKE_INSTALL_BINDIR},${CMAKE_INSTALL_LIBDIR}>
+    CONFIGURATIONS Debug)
+endif()
