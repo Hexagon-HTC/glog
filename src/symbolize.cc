@@ -861,6 +861,9 @@ _END_GOOGLE_NAMESPACE_
 
 #elif defined(GLOG_OS_WINDOWS) || defined(GLOG_OS_CYGWIN)
 
+# ifndef NOMINMAX
+#  define NOMINMAX
+# endif
 #include <windows.h>
 #include <dbghelp.h>
 

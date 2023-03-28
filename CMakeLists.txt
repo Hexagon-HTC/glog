@@ -454,6 +454,9 @@ if (WITH_SYMBOLIZE)
     set (CMAKE_REQUIRED_LIBRARIES DbgHelp)
 
     check_cxx_source_runs ([=[
+    # ifndef NOMINMAX
+    #  define NOMINMAX
+    # endif
     #include <windows.h>
     #include <dbghelp.h>
     #include <cstdlib>
